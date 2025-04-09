@@ -1,39 +1,80 @@
-module testbench;
-logic rstn,master,clk,clk_s,miso;
-logic mosi,clk_m,ss_m_0,ss_m_1,ss,done;
-logic[3:0]counter;
-logic [7:0]data;
+module tb_SPI;
 
-parameter sys_clk = 30;
-spi_master  spi_test(.rstn(rstn),.clk(clk),.miso(miso),.mosi(mosi),.clk_m(clk_m),.ss(ss),.ss_m_0(ss_m_0),.ss_m_1(ss_m_1),.done(done),.data(data),.counter(counter));
-initial begin :dump
-	$fsdbDumpfile("testbench.fsdb");
-	$fsdbDumpvars(0,testbench,"+all");
-end
+    logic clk;
+    logic [7:0] SPI_data_trans;
+    logic SPI_MSB;
+    logic SPI_start;
+    logic SPI_reset;
+    logic [1:0] SPI_div;
+    logic SPI_miso;
+    logic SPI_mosi;
+    logic SPI_slave_select;
+    logic [7:0] SPI_data_rec;
+    logic SPI_flag;
 
-initial begin
-	clk = 0;
-	forever #(sys_clk/6) clk = ~clk;
-end
+    // Instantiate DUT
+    SPI uut (
+        .clk(clk),
+        .SPI_data_trans(SPI_data_trans),
+        .SPI_MSB(SPI_MSB),
+        .SPI_start(SPI_start),
+        .SPI_reset(SPI_reset),
+        .SPI_div(SPI_div),
+        .SPI_miso(SPI_miso),
+        .SPI_mosi(SPI_mosi),
+        .SPI_slave_select(SPI_slave_select),
+        .SPI_data_rec(SPI_data_rec),
+        .SPI_flag(SPI_flag)
+    );
 
+    // Clock generation
+    always #5 clk = ~clk;
 
-initial begin
-	clk_s = 0;
-	forever #(sys_clk/6) clk_s = ~clk_s;
-end
+    initial begin
+      $dumpfile("tb_SPI.vcd");
+      $dumpvars(0,tb_SPI);
+        $display("=== TEST SPI: MSB first ===");
+        // Init
+        clk = 0;
+        SPI_reset = 0;
+        SPI_start = 0;
+        SPI_data_trans = 8'h0f;
+        SPI_MSB = 1;             // MSB first
+        SPI_div = 2'b01;         // clk / 2
+        SPI_miso = 0;
 
-initial begin :master_test
-	rstn = 1'b0; miso = 1'b1; ss = 1'b0; 
-	#50 rstn = 1'b1; miso = 1'b0;
-	#60 miso = 1'b0;  ss = 1'b1;
-	#15 miso = 1'b1;master =1'b0;
-	#40 miso = 1'b0;
-	#30 miso = 1'b1;
-end
+        // Reset
+        #3 SPI_reset = 1;
 
-initial begin :main_run
-#500
-$finish;
-end
+        // Start truyền
+        #10 SPI_start = 1;
+        #20 SPI_start = 0;
+
+        // Mô phỏng dữ liệu nhận (MISO = 1 sau mỗi chu kỳ clock)
+        repeat(16) begin
+            #10 SPI_miso = $urandom_range(0, 1);
+        end
+
+        #70;
+
+        $display("=== TEST SPI: LSB first ===");
+        // Thay đổi sang LSB
+        SPI_data_trans = 8'hf0;
+        SPI_MSB = 0;             // LSB first
+        SPI_div = 2'b10;         // clk / 4
+
+        // Start truyền
+        #10 SPI_start = 1;
+        #20 SPI_start = 0;
+
+        // Mô phỏng dữ liệu nhận (MISO)
+        repeat(16) begin
+            #10 SPI_miso = $urandom_range(0, 1);
+        end
+
+        #300;
+
+        $finish;
+    end
 
 endmodule
