@@ -1,4 +1,3 @@
-
 module SPI_master(
     input  logic       clk,              // CLK hệ thống cấp
     input  logic [7:0] SPI_data_trans,   // 8 bits data gửi đi
@@ -96,7 +95,8 @@ always_ff @ (posedge sck_master or negedge SPI_reset) begin
         SPI_mosi <= 1'b0;
         SPI_flag <= 1'b0;
         counter <= 3'b000;
-    end else begin
+    end 
+    else begin
         current <= next;
 
         shift_reg_tx <= shift_reg_tx;
@@ -115,7 +115,7 @@ always_ff @ (posedge sck_master or negedge SPI_reset) begin
             end
             LOAD_DATA: begin
                 shift_reg_tx <= SPI_data_trans;
-                ss <= 1'b1;
+                ss <= 0;
             end
             TRANS: begin
                 SPI_flag <= 1'b1;
