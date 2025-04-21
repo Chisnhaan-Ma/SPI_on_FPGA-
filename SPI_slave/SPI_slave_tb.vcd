@@ -1,0 +1,191 @@
+$date
+	Mon Apr 21 14:46:12 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module SPI_slave_tb $end
+$var wire 1 ! slave_miso $end
+$var wire 8 " slave_data_rec [7:0] $end
+$var reg 1 # clk $end
+$var reg 8 $ slave_data_trans [7:0] $end
+$var reg 1 % slave_mosi $end
+$var reg 1 & slave_reset $end
+$var reg 1 ' slave_ss $end
+$scope module uut $end
+$var wire 8 ( slave_data_trans [7:0] $end
+$var wire 1 % slave_mosi $end
+$var wire 1 & slave_reset $end
+$var wire 1 # slave_sck $end
+$var wire 1 ' slave_ss $end
+$var reg 3 ) counter [2:0] $end
+$var reg 2 * current [1:0] $end
+$var reg 2 + next [1:0] $end
+$var reg 8 , shift_reg_slave_rx [7:0] $end
+$var reg 8 - shift_reg_slave_tx [7:0] $end
+$var reg 8 . slave_data_rec [7:0] $end
+$var reg 1 ! slave_miso $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 .
+b0 -
+b0 ,
+b0 +
+b0 *
+b0 )
+b11110000 (
+1'
+0&
+0%
+b11110000 $
+0#
+b0 "
+0!
+$end
+#5
+1#
+#10
+0#
+1&
+#15
+1#
+#20
+b1 +
+0#
+0'
+#25
+b11110000 -
+b1 *
+1#
+#30
+0#
+1%
+#35
+b1 )
+b11100000 -
+1!
+b1 ,
+1#
+#40
+0#
+0%
+#45
+b10 )
+b11000000 -
+b10 ,
+1#
+#50
+0#
+#55
+b11 )
+b10000000 -
+b100 ,
+1#
+#60
+0#
+#65
+b100 )
+b0 -
+b1000 ,
+1#
+#70
+0#
+1%
+#75
+b101 )
+0!
+b10001 ,
+1#
+#80
+0#
+#85
+b110 )
+b100011 ,
+1#
+#90
+0#
+0%
+#95
+b10 +
+b111 )
+b1000110 ,
+1#
+#100
+0#
+#105
+b0 )
+b10001100 ,
+b10 *
+1#
+#110
+0#
+#115
+b10001100 "
+b10001100 .
+1#
+#120
+0#
+#125
+1#
+#130
+b0 +
+0#
+1'
+#135
+b0 *
+1#
+#140
+0#
+#145
+1#
+#150
+b1 +
+0#
+0'
+#155
+b11110000 -
+b1 *
+1#
+1%
+#160
+0#
+#165
+b1 )
+b11100000 -
+1!
+b11001 ,
+1#
+#170
+b0 +
+0#
+1'
+#175
+b10 )
+b11000000 -
+b110011 ,
+b0 *
+1#
+#180
+0#
+#185
+1#
+#190
+0#
+#195
+1#
+#200
+0#
+#205
+1#
+#210
+0#
+#215
+1#
+#220
+0#
